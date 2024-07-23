@@ -1,0 +1,43 @@
+http:
+  middlewares:
+    secureHeaders:
+      headers:
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+
+    user-auth:
+      basicAuth:
+        users:
+        - "prometheus:"
+
+  routers:
+    api:
+      entryPoints:
+      - web
+      service: "api@internal"
+      rule: "HOST(`raravind.in`)"
+      tls:
+        certResolver: 'letsencrypt'
+
+    vaultwarden:
+      entryPoints:
+      - websecure
+      service: vaultwarden_service
+      rule: "HOST(`vault.raravind.in`)"
+      tls:
+        certResolver: 'letsencrypt'
+
+  services:
+    vaultwarden_service:
+      loadBalancer:
+        servers:
+        - url: http://localhost:8090/
+
+tls:
+  options:
+    default:
+      cipherSuites:
+      - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+      maxVersion: VersionTLS13
