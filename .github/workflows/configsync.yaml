@@ -1,0 +1,33 @@
+name: sync traefik config files
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - files/config/**
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZ_ACCOUNT_CRED }}
+
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          ls
+          az account show
+          az account
+          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --name config --auth-mode key --overwrite -d '$web' -s files/config/
+
+        # Azure logout
+    - name: logout
+      run: |
+        az logout
+      if: always()
