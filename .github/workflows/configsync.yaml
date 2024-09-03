@@ -3,10 +3,11 @@ name: sync traefik config files
 on:
   push:
     branches:
-    - master
+    - 'master'
+    paths-ignore:
+    - files/config/**
     paths:
-    - files/traefik.yml
-
+    - 'files/**'
 
 jobs:
   build:
