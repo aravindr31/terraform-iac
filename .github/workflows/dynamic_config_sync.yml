@@ -5,7 +5,7 @@ on:
     branches:
     - master
     paths:
-    - files/traefik.yml
+    - files/config/**
 
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           ls
           az account show
           az account
-          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --auth-mode key --overwrite -d . -s 'files/traefik.yml'
+          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --name config --auth-mode key --overwrite -d './config' -s 'files/config/'
 
         # Azure logout
     - name: logout
