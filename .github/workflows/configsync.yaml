@@ -4,10 +4,9 @@ on:
   push:
     branches:
     - 'master'
-    paths-ignore:
-    - files/config/**
     paths:
     - 'files/**'
+    - '!files/config/**'
 
 jobs:
   build:
