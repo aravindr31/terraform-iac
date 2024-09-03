@@ -16,21 +16,21 @@ entryPoints:
   websecure:
     address: :443
     http:
-      middlewares:
-      - secureHeaders@file
+      # middlewares:
+      # - secureHeaders@file
       tls:
         certResolver: letsencrypt
 
-providers:
-  file:
-    directory: "/traefik/config"
-    watch: true
+# providers:
+#   file:
+#     directory: "/traefik/config"
+#     watch: true
 
 certificatesResolvers:
   letsencrypt:
     acme:
       email: "aravindr597@gmail.com"
-      storage: acme.json
+      storage: /traefik/acme.json
       keyType: 'EC256'
       certificatesDuration: 2160
       httpChallenge:
