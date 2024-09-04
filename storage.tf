@@ -27,10 +27,10 @@ resource "azurerm_storage_share" "proxymanager-fs" {
   quota                = 1
 }
 
-// Vaultwarden fs
+// bitwarden fs
 
-resource "azurerm_storage_share" "vaultwarden_fileshare" {
-  name                 = "fs4vaultwarden"
+resource "azurerm_storage_share" "bitwarden_fileshare" {
+  name                 = "fs4bitwarden"
   storage_account_name = azurerm_storage_account.datastore.name
   quota                = 1
 }

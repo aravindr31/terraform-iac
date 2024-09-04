@@ -2,22 +2,22 @@ http:
   middlewares:
     secureHeaders:
       headers:
-        forceSTSHeader: true
+        # forceSTSHeader: true
         stsIncludeSubdomains: true
         stsPreload: true
         stsSeconds: 31536000
 
     user-auth:
-      basicAuth:
+      digestAuth:
         users:
-        - "prometheus:"
+        - "prometheus:traefik:f9a1613e41ffd1b263b1f3185c817130"
 
   routers:
     api:
       entryPoints:
       - web
       service: "api@internal"
-      rule: "HOST(`raravind.in`)"
+      rule: 'HOST(`dashboard.raravind.in`)'
       tls:
         certResolver: 'letsencrypt'
 
@@ -25,7 +25,7 @@ http:
       entryPoints:
       - websecure
       service: vaultwarden_service
-      rule: "HOST(`vault.raravind.in`)"
+      rule: 'HOST(`vault.raravind.in`)'
       tls:
         certResolver: 'letsencrypt'
 
@@ -33,7 +33,7 @@ http:
     vaultwarden_service:
       loadBalancer:
         servers:
-        - url: http://localhost:8090/
+        - url: http://bitwarden.southindia.azurecontainer.io/
 
 tls:
   options:

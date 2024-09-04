@@ -2,6 +2,12 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
+log:
+  filePath: "/traefik/traefik.log"
+  format: json
+  level: DEBUG
+
+
 api:
   dashboard: true
 
@@ -17,15 +23,15 @@ entryPoints:
   websecure:
     address: :443
     http:
-      # middlewares:
-      # - secureHeaders@file
+      middlewares:
+      - secureHeaders@file
       tls:
         certResolver: letsencrypt
 
-# providers:
-#   file:
-#     directory: "/traefik/config"
-#     watch: true
+providers:
+  file:
+    directory: "/traefik/config"
+    watch: true
 
 certificatesResolvers:
   letsencrypt:
