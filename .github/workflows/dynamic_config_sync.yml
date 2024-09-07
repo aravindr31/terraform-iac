@@ -18,7 +18,7 @@ jobs:
         creds: ${{ secrets.AZ_ACCOUNT_CRED }}
 
     - name: Upload to file share
-      uses: azure/CLI@v1
+      uses: azure/CLI@v2
       with:
         inlineScript: |
           ls
@@ -30,3 +30,4 @@ jobs:
       run: |
         az logout
       if: always()
+
