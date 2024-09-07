@@ -35,3 +35,4 @@ certificatesResolvers:
       certificatesDuration: 2160
       httpChallenge:
         entryPoint: web
+
