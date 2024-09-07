@@ -7,6 +7,15 @@ on:
     paths:
     - files/config/**
 
+  pull_request:
+    types:
+    - closed
+    branches:
+    - master
+    paths:
+    - files/config/**
+
+
 
 jobs:
   build:
