@@ -33,7 +33,7 @@ jobs:
         inlineScript: |
           ls
           az account show
-          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --name config --auth-mode key --overwrite -d './config' -s 'files/config/'
+          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --auth-mode key --overwrite -d fs4proxymanager --destination-path /config/  -s 'files/config/'
 
         # Azure logout
     - name: logout
