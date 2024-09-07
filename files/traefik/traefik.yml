@@ -2,12 +2,6 @@ global:
   checkNewVersion: false
   sendAnonymousUsage: false
 
-log:
-  filePath: "/traefik/traefik.log"
-  format: json
-  level: DEBUG
-
-
 api:
   dashboard: true
 
@@ -19,7 +13,6 @@ entryPoints:
         entryPoint:
           to: websecure
 
-
   websecure:
     address: :443
     http:
@@ -30,7 +23,7 @@ entryPoints:
 
 providers:
   file:
-    directory: "/traefik/config"
+    directory: "/etc/traefik/config"
     watch: true
 
 certificatesResolvers:

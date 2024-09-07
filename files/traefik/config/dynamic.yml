@@ -1,39 +1,45 @@
 http:
+  routers:
+
+    api:
+      entryPoints:
+      - web
+      - websecure
+      service: "api@internal"
+      rule: "HOST(`proxymanager.southindia.azurecontainer.io`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      middlewares:
+      - user-auth
+      tls:
+        certResolver: 'letsencrypt'
+
+    #   vaultwarden:
+    #     entryPoints:
+    #     - websecure
+    #     service: vaultwarden_service
+    #     rule: 'HOST(`vault.raravind.in`)'
+    #     tls:
+    #       certResolver: 'letsencrypt'
+
+    # services:
+    #   vaultwarden_service:
+    #     loadBalancer:
+    #       servers:
+    #       - url: http://bitwarden.southindia.azurecontainer.io/
+
   middlewares:
-    secureHeaders:
-      headers:
-        # forceSTSHeader: true
-        stsIncludeSubdomains: true
-        stsPreload: true
-        stsSeconds: 31536000
 
     user-auth:
       digestAuth:
         users:
         - "prometheus:traefik:f9a1613e41ffd1b263b1f3185c817130"
 
-  routers:
-    api:
-      entryPoints:
-      - web
-      service: "api@internal"
-      rule: 'HOST(`dashboard.raravind.in`)'
-      tls:
-        certResolver: 'letsencrypt'
+    secureHeaders:
+      headers:
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
 
-    vaultwarden:
-      entryPoints:
-      - websecure
-      service: vaultwarden_service
-      rule: 'HOST(`vault.raravind.in`)'
-      tls:
-        certResolver: 'letsencrypt'
-
-  services:
-    vaultwarden_service:
-      loadBalancer:
-        servers:
-        - url: http://bitwarden.southindia.azurecontainer.io/
 
 tls:
   options:

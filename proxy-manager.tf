@@ -35,15 +35,16 @@ resource "azurerm_container_group" "proxymanager-cg" {
 
     volume {
       name                 = "fs4proxymanager"
-      mount_path           = "/traefik"
+      mount_path           = "/etc/traefik/"
       read_only            = false
       storage_account_name = azurerm_storage_account.datastore.name
       storage_account_key  = azurerm_storage_account.datastore.primary_access_key
       share_name           = azurerm_storage_share.proxymanager-fs.name
     }
     commands = [
-      "touch /traefik/acme.json && chmod 600 /traefik/acme.json && traefik",
-      # "traefik --configFile=/traefik/traefik.yml",
+      "sh",
+      "-c",
+      "mkdir traefik && touch traefik/acme.json && chmod 600 /traefik/acme.json && traefik",
     ]
     environment_variables = {
       # VAULT_FQDN = "${azurerm_container_group.bitwarden-cg.fqdn}"
@@ -54,7 +55,7 @@ resource "azurerm_container_group" "proxymanager-cg" {
   }
 
   tags = {
-    environment = "production"
+    environment = "dev"
   }
 
 }
