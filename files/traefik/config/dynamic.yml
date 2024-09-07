@@ -1,5 +1,38 @@
 http:
+  routers:
+
+    api:
+      entryPoints:
+      - web
+      - websecure
+      service: "api@internal"
+      rule: "HOST(`proxymanager.southindia.azurecontainer.io`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      middlewares:
+      - user-auth
+      tls:
+        certResolver: 'letsencrypt'
+
+    #   vaultwarden:
+    #     entryPoints:
+    #     - websecure
+    #     service: vaultwarden_service
+    #     rule: 'HOST(`vault.raravind.in`)'
+    #     tls:
+    #       certResolver: 'letsencrypt'
+
+    # services:
+    #   vaultwarden_service:
+    #     loadBalancer:
+    #       servers:
+    #       - url: http://bitwarden.southindia.azurecontainer.io/
+
   middlewares:
+
+    user-auth:
+      digestAuth:
+        users:
+        - "prometheus:traefik:f9a1613e41ffd1b263b1f3185c817130"
+
     secureHeaders:
       headers:
         forceSTSHeader: true
@@ -7,33 +40,6 @@ http:
         stsPreload: true
         stsSeconds: 31536000
 
-    user-auth:
-      basicAuth:
-        users:
-        - "prometheus:"
-
-  routers:
-    api:
-      entryPoints:
-      - web
-      service: "api@internal"
-      rule: "HOST(`raravind.in`)"
-      tls:
-        certResolver: 'letsencrypt'
-
-    vaultwarden:
-      entryPoints:
-      - websecure
-      service: vaultwarden_service
-      rule: "HOST(`vault.raravind.in`)"
-      tls:
-        certResolver: 'letsencrypt'
-
-  services:
-    vaultwarden_service:
-      loadBalancer:
-        servers:
-        - url: http://localhost:8090/
 
 tls:
   options:

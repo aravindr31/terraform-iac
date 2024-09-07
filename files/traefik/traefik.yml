@@ -13,19 +13,18 @@ entryPoints:
         entryPoint:
           to: websecure
 
-
   websecure:
     address: :443
     http:
-      # middlewares:
-      # - secureHeaders@file
+      middlewares:
+      - secureHeaders@file
       tls:
         certResolver: letsencrypt
 
-# providers:
-#   file:
-#     directory: "/traefik/config"
-#     watch: true
+providers:
+  file:
+    directory: "/etc/traefik/config"
+    watch: true
 
 certificatesResolvers:
   letsencrypt:
