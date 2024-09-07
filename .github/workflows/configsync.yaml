@@ -35,7 +35,7 @@ jobs:
         inlineScript: |
           ls
           az account show
-          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --auth-mode key --overwrite -d . -s 'files/traefik.yml'
+          az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --auth-mode key --overwrite -d fs4proxymanager  -s 'files/traefik.yml'
 
         # Azure logout
     - name: logout
