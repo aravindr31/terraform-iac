@@ -17,13 +17,12 @@ jobs:
       with:
         creds: ${{ secrets.AZ_ACCOUNT_CRED }}
 
-    - name: Upload to blob storage
+    - name: Upload to file share
       uses: azure/CLI@v1
       with:
         inlineScript: |
           ls
           az account show
-          az account
           az storage file upload-batch --account-name datastore4ci --account-key ${{ secrets.AZ_STORAGE_KEY }} --share-name fs4proxymanager --name config --auth-mode key --overwrite -d './config' -s 'files/config/'
 
         # Azure logout
